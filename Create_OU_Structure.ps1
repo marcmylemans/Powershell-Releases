@@ -83,9 +83,6 @@ redircmp ("OU=Computers,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpa
 NEW-ADOrganizationalUnit "Service Accounts" –path ("OU=Users,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 
 
-NEW-ADOrganizationalUnit "Kiosk" –path ("OU=Computers,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
-
-
 #Create Different Servers Sub OU
 
 foreach ($ServerOU in $ServersOU)
