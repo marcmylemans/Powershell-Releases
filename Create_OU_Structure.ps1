@@ -24,6 +24,7 @@ $ErrorActionPreference= 'silentlycontinue'
 $DomainNetbiosName = $env:USERDOMAIN
 $ADDomain = (Get-ADDomain)
 $RootOUpath = ($ADDomain.DistinguishedName)
+$ADForest = ($ADDomain.forest)
 $DirectoryPath = "C:\temp"
 $ADSyncedTopFolders = ("AD-Synced","Servers")
 $ADSyncedFolders = ("Users","Computers","Groups")
@@ -129,3 +130,5 @@ New-ADGroup -Name "SG_web-servers-administrator" -SamAccountName "SG_web-servers
 New-ADGroup -Name "SG_APP_servers-administrator" -SamAccountName "SG_APP_servers-administrator" -GroupCategory Security -GroupScope Global -DisplayName "Application Servers Local Administrator" -Path ("OU=Servers,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are Local Administrator on the Application Servers"
 New-ADGroup -Name "SG_db-servers-administrator" -SamAccountName "SG_db-servers-administrator" -GroupCategory Security -GroupScope Global -DisplayName "Database Servers Local Administrator" -Path ("OU=Servers,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are Local Administrator on the Database Servers"
 
+#Enable Active Directory Recycle Bin
+Enable-ADOptionalFeature -Identity 'Recycle Bin Feature' -Scope ForestOrConfigurationSet -Target $ADForest -Confirm:$false
