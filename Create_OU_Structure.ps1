@@ -4,7 +4,6 @@
         Create a organised OU Structure for multi client use.
     .DESCRIPTION
         This script will create a default OU structure from scratch starting with the NETBIOS name of the Active directory.
-        You will have the option to enter a different top OU if desired.
         Future revisions will include the option to use a csv file.
     .NOTES
         Version:        1.0
