@@ -60,7 +60,7 @@ foreach ($ADSyncedTopFolder in $ADSyncedTopFolders)
 
 foreach ($ADSyncedFolder in $ADSyncedFolders)
         {
-            NEW-ADOrganizationalUnit $ADSyncedFolder –path ("OU=" + "AD-Synced" + "," + $DomainNetbiosName + "," + $rootOUpath)
+            NEW-ADOrganizationalUnit $ADSyncedFolder –path ("OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
         }
 
 #Adjusting the Default save location according to the changes made in the OU structure.
@@ -75,10 +75,10 @@ redirusr ("OU=Users,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 redircmp ("OU=Computers,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 
 
-NEW-ADOrganizationalUnit "Service Accounts" –path ("OU=Users,OU=" + $DomainNetbiosName + "," + $rootOUpath)
+NEW-ADOrganizationalUnit "Service Accounts" –path ("OU=Users,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 
 
-NEW-ADOrganizationalUnit "Kiosk" –path ("OU=Computers,OU=" + $DomainNetbiosName + "," + $rootOUpath)
+NEW-ADOrganizationalUnit "Kiosk" –path ("OU=Computers,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 
 
 #Create Different Servers Sub OU
@@ -90,13 +90,13 @@ foreach ($ServerOU in $ServersOU)
 
 #Create Different Groups Sub OU
 #Create Top Level Groups
-NEW-ADOrganizationalUnit "Security" –path ("OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath)
-NEW-ADOrganizationalUnit "Distribution" –path ("OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath)
+NEW-ADOrganizationalUnit "Security" –path ("OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
+NEW-ADOrganizationalUnit "Distribution" –path ("OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
 
 #Create Second Level Groups
 foreach ($SecurityGroupOU in $SecurityGroupsOU)
         {
-        NEW-ADOrganizationalUnit $SecurityGroupOU –path ("OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath)
+        NEW-ADOrganizationalUnit $SecurityGroupOU –path ("OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath)
         }
 
 
@@ -104,15 +104,15 @@ foreach ($SecurityGroupOU in $SecurityGroupsOU)
 #Create Default Security Groups
 #Departments
 
-New-ADGroup -Name "SG_Management"  -SamAccountName "SG_Management" -GroupCategory Security -GroupScope Global -DisplayName "Management Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Management Department"
+New-ADGroup -Name "SG_Management"  -SamAccountName "SG_Management" -GroupCategory Security -GroupScope Global -DisplayName "Management Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Management Department"
 
-New-ADGroup -Name "SG_Internal-IT" -SamAccountName "SG_Internal-IT" -GroupCategory Security -GroupScope Global -DisplayName "Internal IT Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Internal IT Department"
-New-ADGroup -Name "SG_HR" -SamAccountName "SG_HR" -GroupCategory Security -GroupScope Global -DisplayName "HR Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the HR Department"
-New-ADGroup -Name "SG_Stagiair" -SamAccountName "SG_Stagiair" -GroupCategory Security -GroupScope Global -DisplayName "Stagiair Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Stagiair Department"
-New-ADGroup -Name "SG_Interim" -SamAccountName "SG_Interim" -GroupCategory Security -GroupScope Global -DisplayName "Interim Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Interim Department"
-New-ADGroup -Name "SG_Developers" -SamAccountName "SG_Developers" -GroupCategory Security -GroupScope Global -DisplayName "Developers Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Developers Department"
-New-ADGroup -Name "SG_Accounting" -SamAccountName "SG_Acounting" -GroupCategory Security -GroupScope Global -DisplayName "Accounting Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Accounting Department"
-New-ADGroup -Name "SG_Accounting" -SamAccountName "SG_Acounting" -GroupCategory Security -GroupScope Global -DisplayName "Accounting Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Accounting Department"
+New-ADGroup -Name "SG_Internal-IT" -SamAccountName "SG_Internal-IT" -GroupCategory Security -GroupScope Global -DisplayName "Internal IT Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Internal IT Department"
+New-ADGroup -Name "SG_HR" -SamAccountName "SG_HR" -GroupCategory Security -GroupScope Global -DisplayName "HR Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the HR Department"
+New-ADGroup -Name "SG_Stagiair" -SamAccountName "SG_Stagiair" -GroupCategory Security -GroupScope Global -DisplayName "Stagiair Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Stagiair Department"
+New-ADGroup -Name "SG_Interim" -SamAccountName "SG_Interim" -GroupCategory Security -GroupScope Global -DisplayName "Interim Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Interim Department"
+New-ADGroup -Name "SG_Developers" -SamAccountName "SG_Developers" -GroupCategory Security -GroupScope Global -DisplayName "Developers Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Developers Department"
+New-ADGroup -Name "SG_Accounting" -SamAccountName "SG_Acounting" -GroupCategory Security -GroupScope Global -DisplayName "Accounting Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Accounting Department"
+New-ADGroup -Name "SG_Accounting" -SamAccountName "SG_Acounting" -GroupCategory Security -GroupScope Global -DisplayName "Accounting Department" -Path ("OU=Departments,OU=Security,OU=Groups,OU=AD-Synced,OU=" + $DomainNetbiosName + "," + $rootOUpath) -Description "Members of this group are in the Accounting Department"
 
 #Applications
 
