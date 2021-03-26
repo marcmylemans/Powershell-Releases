@@ -60,7 +60,7 @@ foreach ($ADSyncedTopFolder in $ADSyncedTopFolders)
 
 foreach ($ADSyncedFolder in $ADSyncedFolders)
         {
-            NEW-ADOrganizationalUnit $ADSyncedFolder –path ("OU=" + $ADSyncedTopFolder + "," + $DomainNetbiosName + "," + $rootOUpath)
+            NEW-ADOrganizationalUnit $ADSyncedFolder –path ("OU=" + "AD-Synced" + "," + $DomainNetbiosName + "," + $rootOUpath)
         }
 
 #Adjusting the Default save location according to the changes made in the OU structure.
