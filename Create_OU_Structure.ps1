@@ -46,7 +46,7 @@ else
 Write-Host "The given folder path $DirectoryPath already exists"; 
 }
 
-
+Set-Location -Path $DirectoryPath
 
 #Create Top level OU with the Domain Netbios Name
 
