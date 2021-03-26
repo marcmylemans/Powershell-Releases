@@ -16,7 +16,11 @@
 
 #>
 
-#---------------------------------------------------------------------------
+#-----------------------------Error Action-------------------------------
+
+$ErrorActionPreference= 'silentlycontinue'
+
+#-----------------------------Variables----------------------------------
 
 $DomainNetbiosName = $env:USERDOMAIN
 $ADDomain = (Get-ADDomain)
@@ -26,7 +30,8 @@ $ADSyncedTopFolders = ("AD-Synced","Servers")
 $ADSyncedFolders = ("Users","Computers","Groups")
 $ServersOU = ("RDS","Web","Database","Application")
 $SecurityGroupsOU = ("Departments","Printers","Shares","Applications","Computers","Servers")
-#---------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------
 
 
 #Change working Directory
