@@ -6,7 +6,7 @@
         This script will create a default OU structure from scratch starting with the NETBIOS name of the Active directory.
         Future revisions will include the option to use a csv file.
     .NOTES
-        Version:        1.0
+        Version:        1.1
         Author:         Marc Mylemans
         Creation Date:  26/03/2021
         Purpose/Change: Initial script development
