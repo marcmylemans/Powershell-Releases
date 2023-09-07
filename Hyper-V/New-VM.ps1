@@ -1,19 +1,51 @@
-﻿######################################################
-###              Template Definition               ###
-######################################################
+﻿<#
+    .SYNOPSIS
+        
+    .DESCRIPTION
+     This script will create new Virtual Machines based on a sysprepped template VHD.   
+    .NOTES
+        Version:        
+        Author:         Marc Mylemans      
+        Creation Date:  23/02/2023
+        Purpose/Change: Create multiple Virtual Machines based on a Template.
+    .EXAMPLE
+        .\New-VM.ps1
+#>
 
-# Sysprep VHD path (The VHD will be copied to the VM folder)
-$SysVHDPath     = "D:\Hyper-V\Virtual Hard Disks\Templates\template_server2019.vhdx"
+#-----------------------------Error Action-------------------------------
 
+$ErrorActionPreference= 'silentlycontinue'
 
+#-----------------------------Variables----------------------------------
+
+$FolderName = "C:\Temp"
+$SysVHDPath = "D:\Hyper-V\Virtual Hard Disks\Templates\template_server2019.vhdx"
 $_Customer = Read-host('Wich Customer?')
 $_VM_Role = Read-host('Give the VM a Role. Ex. DC = Domain Controller, TS = Terminal Server, DB/SQL = Database/SQL Server')
 $_TotalVMS = Read-Host('Total number of this vm Ex. srv-dc-01 - srv-dc-02')
 $_CPU_Cores = Read-Host('How many Cores to assign? Ex. 2, 4, 6,...')
 [int64]$_RAM = 1GB*(Read-Host "How many RAM to assign? Ex. 4, 6, 8,...")
 $_VlanID =  Read-Host('Wich Vlan to Assign? Ex. 002')
+$VMName = "v" + $_VlanID +"-" + $_Customer +"-ADC" +"-" + $_VM_Role + $_
+$VMPath = "D:\Hyper-V\Virtual Machines"
+$VHDPath = "D:\Hyper-V\Virtual Hard Disks"
 
-$VMName          = "v" + $_VlanID +"-" + $_Customer +"-ADC" +"-" + $_VM_Role + $_
+#-------------------------------------------------------------------------
+
+if([System.IO.Directory]::Exists($FolderName))
+{
+    Write-Host "Folder Exists"
+    Get-ChildItem -Path $FolderName | Where-Object {$_.CreationTime -gt (Get-Date).Date}   
+}
+else
+{
+    Write-Host "Folder Doesn't Exists"
+    
+    #PowerShell Create directory if not exists
+    New-Item $FolderName -ItemType Directory
+}
+
+
 
 ECHO Creating New VM:
 
@@ -32,8 +64,7 @@ $AutoStopAction  = 2
 
 ###### Hardware Configuration ######
 # VM Path
-$VMPath         = "D:\Hyper-V\Virtual Machines"
-$VHDPath     = "D:\Hyper-V\Virtual Hard Disks"
+
 
 # VM Generation (1 or 2)
 $Gen            = 2
