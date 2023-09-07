@@ -47,10 +47,10 @@ else
 
 
 
-ECHO Creating New VM:
+Write-Output Creating New VM:
 
 
-1..$_TotalVMS | % {
+1..$_TotalVMS | ForEach-Object {
 
 # VM Name
 $VMName          = "v" + $_VlanID +"-" + $_Customer +"-" + $_VM_Role + $_
