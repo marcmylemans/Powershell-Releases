@@ -1,3 +1,20 @@
+<#
+.Synopsis
+Created on:   27/10/2023
+Created by:   Marc Mylemans
+Filename:     InstallFortiClientandProfile.ps1
+
+Edited on:    27/10/2023
+Edited by:    Marc Mylemans
+
+Simple script to install a Forticlient VPN with Powershell. The MSI and powershell files should be in the same directory as the script if creating a Win32app
+
+#### Win32 app Commands ####
+
+Install:
+powershell.exe -executionpolicy bypass -file .\InstallFortiClientandProfile.ps1 -parameter
+
+#>
 
 [CmdletBinding()]
 Param (
