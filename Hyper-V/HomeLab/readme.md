@@ -4,9 +4,11 @@
 This project automates the setup of Hyper-V virtual machines (VMs), including the creation of a domain controller, the configuration of Remote Desktop Services (RDS), and setting up VMs from a template. The project uses PowerShell scripts and a JSON configuration file for customization. Currently, the script requires manual input for 'domain admin' credentials during execution. Post-script completion, users must manually integrate their certificates.
 
 ## Prerequisites
-- Windows Server with Hyper-V role installed.
-- PowerShell 5.1 or higher.
-- Administrative privileges on the Hyper-V host.
+- Windows Server equipped with the Hyper-V role.
+- PowerShell 5.1 or above.
+- Administrative rights on the Hyper-V host.
+- A sysprepped template VHD created as the base image for all new VMs.
+- An answer file embedded in the VHD with the same username/password as specified in the JSON file for consistent authentication. (https://www.windowsafg.com/)
 
 ## Configuration
 Edit the `config.json` file to set up your environment. It should include:
