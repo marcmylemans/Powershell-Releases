@@ -1,1 +1,132 @@
+# Hyper-V Automation Project
 
+## Overview
+This project automates the setup of Hyper-V virtual machines (VMs), including the creation of a domain controller, the configuration of Remote Desktop Services (RDS), and setting up VMs from a template. The project uses PowerShell scripts and a JSON configuration file for customization.
+
+## Prerequisites
+- Windows Server with Hyper-V role installed.
+- PowerShell 5.1 or higher.
+- Administrative privileges on the Hyper-V host.
+
+## Configuration
+Edit the `config.json` file to set up your environment. It should include:
+
+- VM names, IPs.
+- Domain controller configuration.
+- RDS setup details.
+- VM template paths.
+- Network configurations.
+
+Example:
+```json
+{
+    "DomainController": {
+        "Name": "dc1",
+        "IP": "192.168.1.10"
+    },
+    "VMs": [
+        {"Name": "web1", "IP": "192.168.1.11"},
+        {"Name": "ts1", "IP": "192.168.1.12"},
+        {"Name": "ts2", "IP": "192.168.1.13"}
+    ],
+    "TemplateVHDXPath": "C:\\Path\\To\\Template.vhdx",
+    "VMStoragePath": "C:\\VMs",
+    "VMSwitch": "YourVirtualSwitch",
+    "DomainName": "homelab.local",
+    "AdminUsername": "Administrator",
+    "AdminPassword": "YourAdminPassword",
+    "SubnetMask": 24,
+    "Gateway": "192.168.1.1",
+    "DNS": "192.168.1.1",
+    "RDS": {
+        "ConnectionBroker": "rdgw.homelab.local",
+        "WebAccessServer": "rdgw.homelab.local",
+        "SessionHost": "rds1.homelab.local",
+        "LicenseServer": "rdgw.homelab.local",
+        "HostRemoteApp": "rds2.homelab.local",
+        "GatewayExternalFqdn": "rdgw.homelab.com",
+        "SessionCollectionName": "RDS Host",
+        "RemoteAppCollectionName": "RDS Remote App",
+        "UserGroupSession": ["homelab\\grp-app-rds-host", "homelab\\domain admins"],
+        "UserGroupRemoteApp": ["homelab\\grp-app-rds-host", "homelab\\domain admins"]
+    }
+}
+```
+
+## Scripts
+
+- New-VMFromTemplate.ps1: Creates a new VM from a specified VHDX template.
+- Configure-VMNetwork.ps1: Configures the network settings for a VM.
+- Set-VMStaticIP.ps1: Sets a static IP for a VM.
+- Setup-DomainController.ps1: Sets up the domain controller.
+- Join-Domain.ps1: Joins VMs to the domain.
+- Set-RDSConfiguration.ps1: Configures Remote Desktop Services.
+
+## Usage
+
+Run the scripts in the PowerShell environment. Ensure all function scripts are in the same directory as the main script.
+
+## Main Script
+
+The main script orchestrates the creation and configuration of VMs:
+
+1) Creates all VMs from the template.
+2) Sets up network configurations for each VM.
+3) Initializes the domain controller.
+4) Joins VMs to the domain.
+5) Configures RDS settings.
+
+## Security
+
+- Credentials: The script uses administrator credentials for several operations. Ensure these are securely managed.
+- Answer File: If using an answer file for automated Windows installations, handle it securely.
+
+## Testing
+
+Test the scripts in a controlled environment before deploying them in a production setting.
+
+## License
+
+MIT License
+
+Copyright (c) 2024 Marc Mylemans
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## Contributing
+
+Contributions to this project are welcome. Please fork the repository and submit a pull request.
+
+## Authors
+Marc Mylemans
+
+## Acknowledgments
+
+This section is reserved for acknowledging future contributors, inspirations, and sources of help. Contributions to this project are highly appreciated and will be duly recognized here.
+
+- **Contributors**: A special thanks to those who contribute to the development and improvement of this project.
+- **Inspirations**: Acknowledgment of any projects, articles, or forums that have inspired or provided valuable information for this project.
+- **Community Support**: Gratitude to the community members who provide support, suggestions, and feedback.
+
+_If you have contributed to this project and wish to be acknowledged here, please let us know._
+
+
+
+For detailed information about each script and configuration settings, refer to the comments within each file.
