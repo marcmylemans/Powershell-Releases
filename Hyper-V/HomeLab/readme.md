@@ -1,7 +1,7 @@
 # Hyper-V Automation Project
 
 ## Overview
-This project automates the setup of Hyper-V virtual machines (VMs), including the creation of a domain controller, the configuration of Remote Desktop Services (RDS), and setting up VMs from a template. The project uses PowerShell scripts and a JSON configuration file for customization.
+This project automates the setup of Hyper-V virtual machines (VMs), including the creation of a domain controller, the configuration of Remote Desktop Services (RDS), and setting up VMs from a template. The project uses PowerShell scripts and a JSON configuration file for customization. Currently, the script requires manual input for 'domain admin' credentials during execution. Post-script completion, users must manually integrate their certificates.
 
 ## Prerequisites
 - Windows Server with Hyper-V role installed.
