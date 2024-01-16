@@ -65,6 +65,11 @@ Example:
 ## Usage
 
 Run the scripts in the PowerShell environment. Ensure all function scripts are in the same directory as the main script.
+The main script:
+
+```powershell
+rds_lab.ps1
+```
 
 ## Main Script
 
