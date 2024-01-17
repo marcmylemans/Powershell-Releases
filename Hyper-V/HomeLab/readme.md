@@ -39,7 +39,7 @@ Example:
     "AdminPassword": "YourAdminPassword",
     "SubnetMask": 24,
     "Gateway": "192.168.1.1",
-    "DNS": "192.168.1.1",
+    "DNS": "192.168.1.10",
     "RDS": {
         "ConnectionBroker": "rdgw.homelab.local",
         "WebAccessServer": "rdgw.homelab.local",
