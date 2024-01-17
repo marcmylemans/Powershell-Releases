@@ -22,25 +22,24 @@ Edit the `config.json` file to set up your environment. It should include:
 Example:
 ```json
 {
-    "DomainController": {
-        "Name": "dc1",
-        "IP": "192.168.1.10"
-    },
     "VMs": [
-        {"Name": "web1", "IP": "192.168.1.11"},
-        {"Name": "ts1", "IP": "192.168.1.12"},
-        {"Name": "ts2", "IP": "192.168.1.13"}
+        {"Name": "dc1", "IP": "192.168.48.10"},
+        {"Name": "rdgw", "IP": "192.168.48.11"},
+        {"Name": "rds1", "IP": "192.168.48.12"},
+        {"Name": "rds2", "IP": "192.168.48.13"}
     ],
-    "TemplateVHDXPath": "C:\\Path\\To\\Template.vhdx",
-    "VMStoragePath": "C:\\VMs",
-    "VMSwitch": "YourVirtualSwitch",
+    "DomainController": "dc1",
+    "TemplateVHDXPath": "C:\\Hyper-V\\Virtual Hard Disks\\Templates\\template_server2019.vhdx",
+    "VMStoragePath": "C:\\Hyper-V\\Virtual Machines",
+    "VMSwitch": "vSwitch",
     "DomainName": "homelab.local",
     "AdminUsername": "Administrator",
-    "AdminPassword": "YourAdminPassword",
+    "AdminPassword": "Azerty123!",
     "SubnetMask": 24,
-    "Gateway": "192.168.1.1",
-    "DNS": "192.168.1.10",
+    "Gateway": "192.168.48.254",
+    "DNS": "192.168.48.10",
     "RDS": {
+        "connectionBrokerVM": "dc1",
         "ConnectionBroker": "rdgw.homelab.local",
         "WebAccessServer": "rdgw.homelab.local",
         "SessionHost": "rds1.homelab.local",
@@ -49,8 +48,8 @@ Example:
         "GatewayExternalFqdn": "rdgw.homelab.com",
         "SessionCollectionName": "RDS Host",
         "RemoteAppCollectionName": "RDS Remote App",
-        "UserGroupSession": ["homelab\\grp-app-rds-host", "homelab\\domain admins"],
-        "UserGroupRemoteApp": ["homelab\\grp-app-rds-host", "homelab\\domain admins"]
+        "UserGroupSession": ["homelab\\domain users", "homelab\\domain admins"],
+        "UserGroupRemoteApp": ["homelab\\domain users", "homelab\\domain admins"]
     }
 }
 ```
