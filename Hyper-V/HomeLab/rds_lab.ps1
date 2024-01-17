@@ -14,7 +14,7 @@
 #>
 
 #-----------------------------Error Action-------------------------------
-#$ErrorActionPreference = 'silentlycontinue'
+$ErrorActionPreference = 'silentlycontinue'
 
 #-----------------------------Variables----------------------------------
 $scriptPath = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
