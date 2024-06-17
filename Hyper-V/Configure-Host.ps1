@@ -170,15 +170,59 @@ Function Set-NetworkProfilesToPrivate {
     }    
 }
 
-# Execute functions
-Disable-ServerManagerStartup
-Enable-RDP
-Set-Hostname
-Check-And-Configure-NIC
-Enable-SNMP
-Disable-IEESC -Target "Both"
-Enable-HyperV
-Enable-SMB
-Enable-Ping
-Set-NICTeaming
-Set-NetworkProfilesToPrivate
+# Function to display menu and execute selected functions
+Function Display-Menu {
+    $menu = @"
+1. Disable Server Manager Startup
+2. Enable Remote Desktop
+3. Set Hostname
+4. Check and Configure NIC
+5. Enable SNMP
+6. Disable IE ESC
+7. Enable Hyper-V
+8. Enable SMB in Windows Firewall
+9. Enable ICMP (Ping) in Windows Firewall
+10. Set NIC Teaming
+11. Set Network Profiles to Private
+12. Run All Functions
+0. Exit
+"@
+
+    Write-Host $menu
+    $selection = Read-Host "Please select an option"
+
+    Switch ($selection) {
+        1 { Disable-ServerManagerStartup }
+        2 { Enable-RDP }
+        3 { Set-Hostname }
+        4 { Check-And-Configure-NIC }
+        5 { Enable-SNMP }
+        6 { Disable-IEESC -Target "Both" }
+        7 { Enable-HyperV }
+        8 { Enable-SMB }
+        9 { Enable-Ping }
+        10 { Set-NICTeaming }
+        11 { Set-NetworkProfilesToPrivate }
+        12 {
+            Disable-ServerManagerStartup
+            Enable-RDP
+            Set-Hostname
+            Check-And-Configure-NIC
+            Enable-SNMP
+            Disable-IEESC -Target "Both"
+            Enable-HyperV
+            Enable-SMB
+            Enable-Ping
+            Set-NICTeaming
+            Set-NetworkProfilesToPrivate
+        }
+        0 { exit }
+        default { Write-Host "Invalid selection. Please try again." }
+    }
+
+    # Show the menu again
+    Display-Menu
+}
+
+# Start the menu
+Display-Menu
