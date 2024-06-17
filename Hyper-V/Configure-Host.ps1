@@ -163,17 +163,7 @@ Function Set-NetworkProfilesToPrivate {
         } else {
             Write-Host "Network profile for interface '$($_.InterfaceAlias)' is already Private."
         }
-    }
-
-    Register-WmiEvent -Namespace Root\StandardCimv2 -ClassName MSFT_NetConnectionProfile -Action {
-        param($sender, $args)
-        $newEvent = $args.NewEvent
-        if ($newEvent.NetworkCategory -ne 'Private') {
-            Set-NetConnectionProfile -InterfaceAlias $newEvent.InterfaceAlias -NetworkCategory Private
-            Write-Host "Automatically set network profile for interface '$($newEvent.InterfaceAlias)' to Private."
-        }
-    }
-    Write-Host "Configured future network profiles to be set to Private."
+    }    
 }
 
 # Execute functions
