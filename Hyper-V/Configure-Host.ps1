@@ -120,6 +120,15 @@ Function Enable-Ping {
 
 # Function to set NIC Teaming using Switch Embedded Teaming (SET)
 Function Set-NICTeaming {
+    $teamName = Read-Host "Enter the name for the NIC Team"
+
+    $existingSwitch = Get-VMSwitch | Where-Object { $_.EnableEmbeddedTeaming -eq $true -and $_.Name -eq $teamName }
+
+    if ($existingSwitch) {
+        Write-Host "A vSwitch with embedded NIC teaming named '$teamName' already exists."
+        return
+    }
+
     $netAdapters = Get-NetAdapter | Where-Object { $_.Status -eq "Up" }
     $netAdapters | ForEach-Object { Write-Host $_.Name }
 
@@ -130,17 +139,10 @@ Function Set-NICTeaming {
         $adapters = $selectedAdapters -split ','
     }
 
-    $teamName = Read-Host "Enter the name for the NIC Team"
-
-    $existingSwitch = Get-VMSwitch | Where-Object { $_.EnableEmbeddedTeaming -eq $true -and $_.Name -eq $teamName }
-
-    if (-not $existingSwitch) {
-        New-VMSwitch -Name $teamName -NetAdapterName $adapters -EnableEmbeddedTeaming $true
-        Write-Host "NIC Teaming (SET) created with team name '$teamName' using adapters: $($adapters -join ', ')"
-    } else {
-        Write-Host "A vSwitch with embedded NIC teaming named '$teamName' already exists."
-    }
+    New-VMSwitch -Name $teamName -NetAdapterName $adapters -EnableEmbeddedTeaming $true
+    Write-Host "NIC Teaming (SET) created with team name '$teamName' using adapters: $($adapters -join ', ')"
 }
+
 
 # Function to set or get hostname
 Function Set-Hostname {
