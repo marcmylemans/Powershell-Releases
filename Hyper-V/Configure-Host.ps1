@@ -132,9 +132,9 @@ Function Set-NICTeaming {
 
     $teamName = Read-Host "Enter the name for the NIC Team"
 
-    if (-not (Get-NetSwitchTeam -Name $teamName -ErrorAction SilentlyContinue)) {
-        New-NetSwitchTeam -Name $teamName -TeamMembers $adapters
-        Write-Host "NIC Teaming created with team name '$teamName' using adapters: $($adapters -join ', ')"
+    if (-not (Get-VMSwitch -Name $teamName -ErrorAction SilentlyContinue)) {
+        New-VMSwitch -Name $teamName -NetAdapterName $adapters -EnableEmbeddedTeaming $true
+        Write-Host "NIC Teaming (SET) created with team name '$teamName' using adapters: $($adapters -join ', ')"
     } else {
         Write-Host "NIC Team '$teamName' already exists."
     }
