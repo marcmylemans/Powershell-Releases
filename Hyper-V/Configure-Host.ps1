@@ -93,7 +93,7 @@ Function Disable-IEESC {
 # Function to enable Hyper-V Role without Reboot
 Function Enable-HyperV {
     if (-not (Get-WindowsFeature -Name Hyper-V).Installed) {
-        Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -NoRestart
+        Install-WindowsFeature -Name Hyper-V -IncludeManagementTools
         Write-Host "Hyper-V installed. Reboot required for the changes to take effect."
         exit
     } else {
