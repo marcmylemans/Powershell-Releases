@@ -158,6 +158,28 @@ Function Set-Hostname {
     }
 }
 
+# Function to ensure all network profiles are private
+Function Set-NetworkProfilesToPrivate {
+    Get-NetConnectionProfile | ForEach-Object {
+        if ($_.NetworkCategory -ne 'Private') {
+            Set-NetConnectionProfile -InterfaceAlias $_.InterfaceAlias -NetworkCategory Private
+            Write-Host "Set network profile for interface '$($_.InterfaceAlias)' to Private."
+        } else {
+            Write-Host "Network profile for interface '$($_.InterfaceAlias)' is already Private."
+        }
+    }
+
+    Register-WmiEvent -Namespace Root\StandardCimv2 -ClassName MSFT_NetConnectionProfile -Action {
+        param($sender, $args)
+        $newEvent = $args.NewEvent
+        if ($newEvent.NetworkCategory -ne 'Private') {
+            Set-NetConnectionProfile -InterfaceAlias $newEvent.InterfaceAlias -NetworkCategory Private
+            Write-Host "Automatically set network profile for interface '$($newEvent.InterfaceAlias)' to Private."
+        }
+    }
+    Write-Host "Configured future network profiles to be set to Private."
+}
+
 # Execute functions
 Disable-ServerManagerStartup
 Enable-RDP
@@ -169,3 +191,4 @@ Enable-HyperV
 Enable-SMB
 Enable-Ping
 Set-NICTeaming
+Set-NetworkProfilesToPrivate
