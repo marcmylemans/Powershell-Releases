@@ -144,10 +144,24 @@ Function Set-NICTeaming {
     }
 }
 
+# Function to set or get hostname
+Function Set-Hostname {
+    $currentHostname = $env:COMPUTERNAME
+    Write-Host "Current Hostname: $currentHostname"
+    $newHostname = Read-Host "Enter a new hostname or press Enter to keep the current hostname"
+    if ($newHostname -and $newHostname -ne $currentHostname) {
+        Rename-Computer -NewName $newHostname -Force
+        Write-Host "Hostname changed to $newHostname. Reboot required for the changes to take effect."
+        exit
+    } else {
+        Write-Host "Hostname remains as $currentHostname."
+    }
+}
+
 # Execute functions
 Disable-ServerManagerStartup
 Enable-RDP
-Write-Host "Hostname: $env:COMPUTERNAME"
+Set-Hostname
 Check-And-Configure-NIC
 Enable-SNMP
 Disable-IEESC -Target "Both"
