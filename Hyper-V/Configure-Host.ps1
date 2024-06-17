@@ -69,8 +69,8 @@ Function Disable-IEESC {
     )
     
     If ($Target -eq "Admin" -or $Target -eq "Both") {
-        if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{A55FFB6E-EF5E-4d8a-8055-1E4F3D91336B}" -Name "IsInstalled").IsInstalled -ne 0) {
-            Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{A55FFB6E-EF5E-4d8a-8055-1E4F3D91336B}" -Name "IsInstalled" -Value 0
+        if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled").IsInstalled -ne 0) {
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled" -Value 0
             Stop-Process -Name Explorer -Force
             Write-Host "IE ESC disabled for Administrators."
         } else {
@@ -79,8 +79,8 @@ Function Disable-IEESC {
     }
     
     If ($Target -eq "User" -or $Target -eq "Both") {
-        if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{B5B124B8-0F1E-4b56-9D78-CF4F5C4C5E6A}" -Name "IsInstalled").IsInstalled -ne 0) {
-            Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{B5B124B8-0F1E-4b56-9D78-CF4F5C4C5E6A}" -Name "IsInstalled" -Value 0
+        if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled").IsInstalled -ne 0) {
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled" -Value 0
             Stop-Process -Name Explorer -Force
             Write-Host "IE ESC disabled for Users."
         } else {
