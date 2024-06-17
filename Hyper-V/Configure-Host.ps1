@@ -19,15 +19,31 @@ Function Enable-RDP {
     }
 }
 
-# Function to check NIC configuration
-Function Check-NICConfig {
-    $interfaces = Get-NetIPConfiguration
-    foreach ($interface in $interfaces) {
-        if ($interface.DhcpEnabled) {
-            Write-Host "Interface $($interface.InterfaceAlias) is set to DHCP."
+# Function to check and configure NIC settings
+Function Check-And-Configure-NIC {
+    $interfaces = Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null }
+    $interfaces | ForEach-Object { Write-Host "$($_.InterfaceAlias): $($_.IPv4Address.IPAddress) / $($_.IPv4Address.PrefixLength)" }
+
+    $configureNIC = Read-Host "Do you want to configure a network interface? (y/n)"
+    if ($configureNIC -eq 'y') {
+        $selectedInterface = Read-Host "Enter the network interface name to configure"
+        $useStatic = Read-Host "Do you want to use static IP? (y/n)"
+        
+        if ($useStatic -eq 'y') {
+            $ipAddress = Read-Host "Enter the static IP address"
+            $netmask = Read-Host "Enter the subnet mask"
+            $gateway = Read-Host "Enter the default gateway"
+            $dnsServers = Read-Host "Enter DNS servers (comma-separated)"
+            
+            New-NetIPAddress -InterfaceAlias $selectedInterface -IPAddress $ipAddress -PrefixLength $netmask -DefaultGateway $gateway
+            Set-DnsClientServerAddress -InterfaceAlias $selectedInterface -ServerAddresses ($dnsServers -split ',')
+            Write-Host "Static IP configuration applied to $selectedInterface."
         } else {
-            Write-Host "Interface $($interface.InterfaceAlias) is set to Static IP."
+            Set-DhcpClient -InterfaceAlias $selectedInterface
+            Write-Host "$selectedInterface is now set to use DHCP."
         }
+    } else {
+        Write-Host "No NIC configuration changes made."
     }
 }
 
@@ -132,7 +148,7 @@ Function Set-NICTeaming {
 Disable-ServerManagerStartup
 Enable-RDP
 Write-Host "Hostname: $env:COMPUTERNAME"
-Check-NICConfig
+Check-And-Configure-NIC
 Enable-SNMP
 Disable-IEESC -Target "Both"
 Enable-HyperV
