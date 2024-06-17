@@ -103,12 +103,6 @@ Function Enable-HyperV {
 
 # Function to enable SMB in Windows Firewall
 Function Enable-SMB {
-    if (-not (Get-WindowsOptionalFeature -Online -FeatureName smb1protocol).State -eq "Enabled") {
-        Enable-WindowsOptionalFeature -Online -FeatureName smb1protocol
-    }
-    if (-not (Get-WindowsOptionalFeature -Online -FeatureName smb2protocol).State -eq "Enabled") {
-        Enable-WindowsOptionalFeature -Online -FeatureName smb2protocol
-    }
     Enable-NetFirewallRule -DisplayGroup "File and Printer Sharing"
     Write-Host "SMB enabled in Windows Firewall."
 }
