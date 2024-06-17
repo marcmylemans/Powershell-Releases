@@ -122,7 +122,7 @@ Function Enable-Ping {
 Function Set-NICTeaming {
     $teamName = Read-Host "Enter the name for the NIC Team"
 
-    $existingSwitch = Get-VMSwitch | Where-Object { $_.EnableEmbeddedTeaming -eq $true -and $_.Name -eq $teamName }
+    $existingSwitch = Get-VMSwitchTeam -name $teamName
 
     if ($existingSwitch) {
         Write-Host "A vSwitch with embedded NIC teaming named '$teamName' already exists."
