@@ -110,12 +110,13 @@ Function Enable-SMB {
 # Function to enable ICMP (Ping) in Windows Firewall
 Function Enable-Ping {
     if (-not (Get-NetFirewallRule -Name "Allow ICMPv4-In")) {
-        New-NetFirewallRule -Name "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Any
+        New-NetFirewallRule -Name "Allow ICMPv4-In" -DisplayName "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Any
         Write-Host "ICMP (Ping) enabled in Windows Firewall."
     } else {
         Write-Host "ICMP (Ping) is already enabled in Windows Firewall."
     }
 }
+
 
 # Function to set NIC Teaming using Switch Embedded Teaming (SET)
 Function Set-NICTeaming {
