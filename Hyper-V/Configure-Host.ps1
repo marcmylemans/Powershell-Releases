@@ -220,8 +220,8 @@ Function Display-Menu {
         default { Write-Host "Invalid selection. Please try again." }
     }
 
-    # Show the menu again
-    Display-Menu
+    # Don't show the menu again
+    Exit
 }
 
 # Start the menu
