@@ -64,3 +64,11 @@ Function Set-NICTeaming {
 
 # Enable Hyper-V Role without Reboot
 Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -NoRestart
+
+# Enable SMB in Windows Firewall
+Enable-WindowsOptionalFeature -Online -FeatureName smb1protocol
+Enable-WindowsOptionalFeature -Online -FeatureName smb2protocol
+Enable-NetFirewallRule -DisplayGroup "File and Printer Sharing"
+
+# Enable ICMP (Ping) in Windows Firewall
+New-NetFirewallRule -Name "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Any
