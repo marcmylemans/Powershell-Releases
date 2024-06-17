@@ -2,6 +2,7 @@
 Function Disable-ServerManagerStartup {
     if ((Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ServerManager" -Name "DoNotOpenServerManagerAtLogon").DoNotOpenServerManagerAtLogon -ne 1) {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ServerManager" -Name "DoNotOpenServerManagerAtLogon" -Value 1
+        Set-ItemProperty -Path "HKCU:\Software\Microsoft\ServerManager" -Name "CheckedUnattendLaunchSetting" -Value 0
         Write-Host "Server Manager startup disabled."
     } else {
         Write-Host "Server Manager startup is already disabled."
