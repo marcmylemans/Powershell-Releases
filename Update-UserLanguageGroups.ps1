@@ -106,9 +106,4 @@ function Log-Message {
     "$timestamp - $Message" | Out-File -FilePath $logFile -Append
 }
 
-# Replace Write-Output with Log-Message
-Log-Message "Added $samAccountName to $($languageGroups[$preferredLanguageCode])"
-Log-Message "Removed $samAccountName from $($languageGroups[$lang])"
-Log-Message "Removed $samAccountName from all language groups due to undefined or unsupported preferredLanguage: $preferredLanguageFull"
-Log-Message "Language group update completed at $(Get-Date)"
 
