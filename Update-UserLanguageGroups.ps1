@@ -28,12 +28,13 @@ $logFile = "C:\temp\Update-UserLanguageGroups.log"
 if(!(Test-Path -path $DirectoryPath))  
 {  
  New-Item -ItemType directory -Path $DirectoryPath
- Write-Host "Folder path has been created successfully at: " $DirectoryPath    
+ Log-Message "Folder path has been created successfully at: " $DirectoryPath    
  }
 else 
 { 
 Write-Host "The given folder path $DirectoryPath already exists"; 
 }
+Write-Host "Change working Directory"
 Set-Location -Path $DirectoryPath
 
 # Define the security groups corresponding to each language policy
@@ -77,7 +78,7 @@ foreach ($user in $users) {
         # Add user to the target group if not already a member
         if (-not (Get-ADGroupMember -Identity $targetGroupDN -Recursive | Where-Object { $_.DistinguishedName -eq $userDN })) {
             Add-ADGroupMember -Identity $targetGroupDN -Members $userDN -Confirm:$false
-            Write-Output "Added $samAccountName to $($languageGroups[$preferredLanguageCode])"
+            Log-Message "Added $samAccountName to $($languageGroups[$preferredLanguageCode])"
         }
 
         # Remove user from other language groups
@@ -85,14 +86,14 @@ foreach ($user in $users) {
             if ($lang -ne $preferredLanguageCode) {
                 $otherGroupDN = $groupDNs[$lang]
                 Remove-ADGroupMember -Identity $otherGroupDN -Members $userDN -Confirm:$false
-                Write-Output "Removed $samAccountName from $($languageGroups[$lang])"
+                Log-Message "Removed $samAccountName from $($languageGroups[$lang])"
             }
         }
     }
     else {
         # If preferredLanguage is not set correctly, remove from all language groups
         Remove-FromAllLanguageGroups -UserDN $userDN
-        Write-Output "Removed $samAccountName from all language groups due to undefined or unsupported preferredLanguage: $preferredLanguageFull"
+        Log-Message "Removed $samAccountName from all language groups due to undefined or unsupported preferredLanguage: $preferredLanguageFull"
     }
 }
 
