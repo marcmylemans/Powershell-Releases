@@ -62,6 +62,15 @@ function Remove-FromAllLanguageGroups {
     }
 }
 
+# Function to log messages
+function Log-Message {
+    param (
+        [string]$Message
+    )
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$timestamp - $Message" | Out-File -FilePath $logFile -Append
+}
+
 # Get all users with the 'preferredLanguage' attribute
 $users = Get-ADUser -Filter { preferredLanguage -like "*" } -Properties preferredLanguage, DistinguishedName, SamAccountName
 
@@ -97,13 +106,6 @@ foreach ($user in $users) {
     }
 }
 
-# Function to log messages
-function Log-Message {
-    param (
-        [string]$Message
-    )
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    "$timestamp - $Message" | Out-File -FilePath $logFile -Append
-}
 
 
+Log-Message "Language group update completed at $(Get-Date)"
