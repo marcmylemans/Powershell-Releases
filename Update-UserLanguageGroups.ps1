@@ -1,7 +1,5 @@
 ﻿
 <#
-    .SYNOPSIS
-        Create a organised OU Structure for multi client use.
     .DESCRIPTION
     Assigns users to language-specific security groups based on the language portion of their preferredLanguage attribute in Active Directory.
     .NOTES
