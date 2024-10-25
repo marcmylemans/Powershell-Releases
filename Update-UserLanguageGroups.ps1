@@ -22,8 +22,21 @@ Import-Module ActiveDirectory
 $ErrorActionPreference= 'silentlycontinue'
 
 #-----------------------------Variables----------------------------------
-# Define log file path
-$logFile = "C:\Temp\Update-UserLanguageGroups.log"
+
+$DirectoryPath = "C:\temp"
+$logFile = "C:\temp\Update-UserLanguageGroups.log"
+
+#Change working Directory
+if(!(Test-Path -path $DirectoryPath))  
+{  
+ New-Item -ItemType directory -Path $DirectoryPath
+ Write-Host "Folder path has been created successfully at: " $DirectoryPath    
+ }
+else 
+{ 
+Write-Host "The given folder path $DirectoryPath already exists"; 
+}
+Set-Location -Path $DirectoryPath
 
 # Define the security groups corresponding to each language policy
 $languageGroups = @{
